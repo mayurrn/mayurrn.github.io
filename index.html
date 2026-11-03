@@ -337,28 +337,54 @@ He has successfully represented clients at all judicial levels, including the Su
     defer>
 </script>
 
+
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
+
     const display = document.getElementById("visitorCount");
 
+    const api = "https://page-views-api.ratneshc.com";
+    const site = "advvinitvaidya.legalaiassist.net";
+    const path = "/";
+
     try {
-        const response = await fetch(
-            "https://page-views-api.ratneshc.com/api/v1/views?site=advvinitvaidya.legalaiassist.net&path=%2F"
+        const params = new URLSearchParams({
+            site: site,
+            path: path
+        });
+
+        // First: record this visit
+        const trackResponse = await fetch(
+            `${api}/api/v1/track?${params.toString()}`,
+            { cache: "no-store" }
         );
 
-        if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+        if (!trackResponse.ok) {
+            throw new Error("Tracking failed: HTTP " + trackResponse.status);
         }
 
-        const data = await response.json();
-        display.textContent = Number(data.views).toLocaleString();
+        // Second: retrieve the updated count
+        const countResponse = await fetch(
+            `${api}/api/v1/views?${params.toString()}`,
+            { cache: "no-store" }
+        );
+
+        if (!countResponse.ok) {
+            throw new Error("Count retrieval failed: HTTP " + countResponse.status);
+        }
+
+        const result = await countResponse.json();
+
+        display.textContent = Number(result.views).toLocaleString();
 
     } catch (error) {
         console.error("Visitor counter error:", error);
         display.textContent = "Unavailable";
     }
+
 });
 </script>
+
 
 
 </body>
