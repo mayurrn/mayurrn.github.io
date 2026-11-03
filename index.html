@@ -328,27 +328,23 @@ He has successfully represented clients at all judicial levels, including the Su
   <script src="assets/js/main.js"></script>
 
 	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-		
-		    fetch("visitor-counter.php")
-		        .then(response => {
-		            if (!response.ok) {
-		                throw new Error("Counter request failed");
-		            }
-		            return response.json();
-		        })
-		        .then(data => {
-		            document.getElementById("visitorCount").textContent =
-		                Number(data.visits).toLocaleString();
-		        })
-		        .catch(error => {
-		            document.getElementById("visitorCount").textContent =
-		                "Unavailable";
-		            console.error(error);
-		        });
-		
-		});
-	</script>
+	document.addEventListener("DOMContentLoaded", function () {
+	
+	    // Get existing visit count
+	    let visits = localStorage.getItem("websiteVisits");
+	
+	    // Increment count
+	    visits = visits ? parseInt(visits) + 1 : 1;
+	
+	    // Save updated count
+	    localStorage.setItem("websiteVisits", visits);
+	
+	    // Display count
+	    document.getElementById("visitorCount").textContent =
+	        visits.toLocaleString();
+	
+	});
+</script>
 </body>
 
 
