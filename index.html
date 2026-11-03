@@ -329,31 +329,35 @@ He has successfully represented clients at all judicial levels, including the Su
 
 
 
+<script
+    src="https://page-views-api.ratneshc.com/script"
+    data-site="advvinitvaidya.legalaiassist.net"
+    data-path="/"
+    data-debug="true"
+    defer>
+</script>
+
 <script>
-(async function () {
-    const namespace = "advvinitvaidya";
-    const key = "homepage";
+document.addEventListener("DOMContentLoaded", async function () {
     const display = document.getElementById("visitorCount");
 
     try {
-        // Increment the counter
-        const hitResponse = await fetch(
-            `https://abacus.jasoncameron.dev/hit/${namespace}/${key}`
+        const response = await fetch(
+            "https://page-views-api.ratneshc.com/api/v1/views?site=advvinitvaidya.legalaiassist.net&path=%2F"
         );
 
-        if (!hitResponse.ok) {
-            throw new Error("Counter increment failed");
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
         }
 
-        const data = await hitResponse.json();
-
-        display.textContent = Number(data.value).toLocaleString();
+        const data = await response.json();
+        display.textContent = Number(data.views).toLocaleString();
 
     } catch (error) {
         console.error("Visitor counter error:", error);
         display.textContent = "Unavailable";
     }
-})();
+});
 </script>
 
 
