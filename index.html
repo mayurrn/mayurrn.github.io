@@ -302,7 +302,7 @@ He has successfully represented clients at all judicial levels, including the Su
         <p>&copy; <span>Copyright</span> <strong class="px-1 sitename">Adv. Vinit Vaidya</strong> <span>All Rights Reserved</span></p>
         <p class="mt-2 mt-md-0"><small>This website is for informational purposes only and does not constitute legal advice.</small></p>
 		<p class="mt-2">
-		    Website Visits: <strong id="website-visits">Loading...</strong>
+		    Website Visits: <strong id="visitorCount">Loading...</strong>
 		</p>
       </div>
     </div>
@@ -328,33 +328,34 @@ He has successfully represented clients at all judicial levels, including the Su
  
 
 
+
 <script>
-(function () {
-    const display = document.getElementById("website-visits");
+(async function () {
+    const namespace = "advvinitvaidya";
+    const key = "homepage";
+    const display = document.getElementById("visitorCount");
 
-    window.updateWebsiteVisits = function (response) {
-        if (response && response.value !== undefined) {
-            display.textContent =
-                Number(response.value).toLocaleString();
-        } else {
-            display.textContent = "Counter unavailable";
+    try {
+        // Increment the counter
+        const hitResponse = await fetch(
+            `https://abacus.jasoncameron.dev/hit/${namespace}/${key}`
+        );
+
+        if (!hitResponse.ok) {
+            throw new Error("Counter increment failed");
         }
-    };
 
-    const script = document.createElement("script");
+        const data = await hitResponse.json();
 
-    script.src =
-        "https://counterapi.com/api/advvinitvaidya.legalaiassist.net/view/homepage?callback=updateWebsiteVisits";
+        display.textContent = Number(data.value).toLocaleString();
 
-    script.async = true;
-
-    script.onerror = function () {
-        display.textContent = "Counter service unavailable";
-    };
-
-    document.body.appendChild(script);
+    } catch (error) {
+        console.error("Visitor counter error:", error);
+        display.textContent = "Unavailable";
+    }
 })();
 </script>
+
 
 </body>
 
