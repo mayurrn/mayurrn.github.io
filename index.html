@@ -302,7 +302,8 @@ He has successfully represented clients at all judicial levels, including the Su
         <p>&copy; <span>Copyright</span> <strong class="px-1 sitename">Adv. Vinit Vaidya</strong> <span>All Rights Reserved</span></p>
         <p class="mt-2 mt-md-0"><small>This website is for informational purposes only and does not constitute legal advice.</small></p>
 		<p class="mt-2">
-    		Website Visits: <strong id="visitorCount">Loading...</strong>
+		    Website Visits: <span class="counterapi" 
+		    style="font-weight:bold;"></span>
 		</p>
       </div>
     </div>
@@ -325,26 +326,9 @@ He has successfully represented clients at all judicial levels, including the Su
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
   <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+ 
 
-	<script>
-	document.addEventListener("DOMContentLoaded", function () {
-	
-	    // Get existing visit count
-	    let visits = localStorage.getItem("websiteVisits");
-	
-	    // Increment count
-	    visits = visits ? parseInt(visits) + 1 : 1;
-	
-	    // Save updated count
-	    localStorage.setItem("websiteVisits", visits);
-	
-	    // Display count
-	    document.getElementById("visitorCount").textContent =
-	        visits.toLocaleString();
-	
-	});
-</script>
+<script src="https://counterapi.com/c.js?ns=advvinitvaidya.legalaiassit.net" async></script>
 </body>
 
 
