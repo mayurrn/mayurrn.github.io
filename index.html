@@ -326,68 +326,38 @@ He has successfully represented clients at all judicial levels, including the Su
 
   <!-- Main JS File -->
 
+
+
 <script>
 (async function () {
-
     const display = document.getElementById("visitorCount");
 
-    if (!display) {
-        console.error("visitorCount element not found");
-        return;
-    }
+    if (!display) return;
 
-    const api = "https://page-views-api.ratneshc.com";
     const params = new URLSearchParams({
         site: "advvinitvaidya.legalaiassist.net",
         path: "/"
     });
 
-    display.textContent = "Connecting...";
-
     try {
-
-        // Record the current visit
-        const track = await fetch(
-            `${api}/api/v1/track?${params}`,
-            { cache: "no-store" }
-        );
-
-        if (!track.ok) {
-            throw new Error("Track API HTTP " + track.status);
-        }
-
-        // Retrieve total visits
         const response = await fetch(
-            `${api}/api/v1/views?${params}`,
+            "https://page-views-api.ratneshc.com/api/v1/views?" + params,
             { cache: "no-store" }
         );
 
         if (!response.ok) {
-            throw new Error("Views API HTTP " + response.status);
+            throw new Error("HTTP " + response.status);
         }
 
-        const result = await response.json();
-
-        if (typeof result.views !== "number") {
-            throw new Error("Invalid API response: " +
-                JSON.stringify(result));
-        }
-
-        display.textContent = result.views.toLocaleString();
-
-        console.log("Website visits:", result.views);
+        const data = await response.json();
+        display.textContent = Number(data.views).toLocaleString();
 
     } catch (error) {
-
+        console.error("Visitor counter error:", error);
         display.textContent = "Unavailable";
-        console.error("Visitor counter failed:", error);
-
     }
-
 })();
 </script>
-
-
 
 
 </body>
