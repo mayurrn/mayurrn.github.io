@@ -352,7 +352,7 @@ window.addEventListener("load", async function () {
         if (!response.ok) throw new Error("HTTP " + response.status);
 
         const data = await response.json();
-		cosole.log(JSON.stringify(data));
+		console.log(JSON.stringify(data));
         display.textContent = Number(data.views).toLocaleString();
 
     } catch (error) {
