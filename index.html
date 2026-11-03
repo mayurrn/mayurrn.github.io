@@ -301,6 +301,9 @@ He has successfully represented clients at all judicial levels, including the Su
       <div class="copyright d-flex flex-column flex-md-row align-items-center justify-content-md-between mt-4 pt-4 border-top">
         <p>&copy; <span>Copyright</span> <strong class="px-1 sitename">Adv. Vinit Vaidya</strong> <span>All Rights Reserved</span></p>
         <p class="mt-2 mt-md-0"><small>This website is for informational purposes only and does not constitute legal advice.</small></p>
+		<p class="mt-2">
+    		Website Visits: <strong id="visitorCount">Loading...</strong>
+		</p>
       </div>
     </div>
   </footer>
@@ -324,6 +327,28 @@ He has successfully represented clients at all judicial levels, including the Su
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+		
+		    fetch("visitor-counter.php")
+		        .then(response => {
+		            if (!response.ok) {
+		                throw new Error("Counter request failed");
+		            }
+		            return response.json();
+		        })
+		        .then(data => {
+		            document.getElementById("visitorCount").textContent =
+		                Number(data.visits).toLocaleString();
+		        })
+		        .catch(error => {
+		            document.getElementById("visitorCount").textContent =
+		                "Unavailable";
+		            console.error(error);
+		        });
+		
+		});
+	</script>
 </body>
 
 
