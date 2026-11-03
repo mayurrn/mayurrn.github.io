@@ -325,65 +325,68 @@ He has successfully represented clients at all judicial levels, including the Su
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
   <!-- Main JS File -->
- 
-
-
-
-<script
-    src="https://page-views-api.ratneshc.com/script"
-    data-site="advvinitvaidya.legalaiassist.net"
-    data-path="/"
-    data-debug="true"
-    defer>
-</script>
-
 
 <script>
-document.addEventListener("DOMContentLoaded", async function () {
+(async function () {
 
     const display = document.getElementById("visitorCount");
 
-    const api = "https://page-views-api.ratneshc.com";
-    const site = "advvinitvaidya.legalaiassist.net";
-    const path = "/";
-
-    try {
-        const params = new URLSearchParams({
-            site: site,
-            path: path
-        });
-
-        // First: record this visit
-        const trackResponse = await fetch(
-            `${api}/api/v1/track?${params.toString()}`,
-            { cache: "no-store" }
-        );
-
-        if (!trackResponse.ok) {
-            throw new Error("Tracking failed: HTTP " + trackResponse.status);
-        }
-
-        // Second: retrieve the updated count
-        const countResponse = await fetch(
-            `${api}/api/v1/views?${params.toString()}`,
-            { cache: "no-store" }
-        );
-
-        if (!countResponse.ok) {
-            throw new Error("Count retrieval failed: HTTP " + countResponse.status);
-        }
-
-        const result = await countResponse.json();
-
-        display.textContent = Number(result.views).toLocaleString();
-
-    } catch (error) {
-        console.error("Visitor counter error:", error);
-        display.textContent = "Unavailable";
+    if (!display) {
+        console.error("visitorCount element not found");
+        return;
     }
 
-});
+    const api = "https://page-views-api.ratneshc.com";
+    const params = new URLSearchParams({
+        site: "advvinitvaidya.legalaiassist.net",
+        path: "/"
+    });
+
+    display.textContent = "Connecting...";
+
+    try {
+
+        // Record the current visit
+        const track = await fetch(
+            `${api}/api/v1/track?${params}`,
+            { cache: "no-store" }
+        );
+
+        if (!track.ok) {
+            throw new Error("Track API HTTP " + track.status);
+        }
+
+        // Retrieve total visits
+        const response = await fetch(
+            `${api}/api/v1/views?${params}`,
+            { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+            throw new Error("Views API HTTP " + response.status);
+        }
+
+        const result = await response.json();
+
+        if (typeof result.views !== "number") {
+            throw new Error("Invalid API response: " +
+                JSON.stringify(result));
+        }
+
+        display.textContent = result.views.toLocaleString();
+
+        console.log("Website visits:", result.views);
+
+    } catch (error) {
+
+        display.textContent = "Unavailable";
+        console.error("Visitor counter failed:", error);
+
+    }
+
+})();
 </script>
+
 
 
 
